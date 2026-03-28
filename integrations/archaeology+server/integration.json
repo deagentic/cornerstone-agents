@@ -1,0 +1,7 @@
+{
+  "name": "archaeology+server",
+  "capabilities": ["archaeology", "server"],
+  "description": "Legacy API wrapper patterns — characterize existing endpoints, then wrap in hexagonal adapter",
+  "agents_fragment": "AGENTS.archaeology+server.md",
+  "sparse_paths": ["integrations/archaeology+server/"]
+}

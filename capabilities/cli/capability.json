@@ -1,0 +1,7 @@
+{
+  "name": "cli",
+  "description": "CLI tooling skills — semantic versioning, release management, and agentic-ci command surface",
+  "agents_fragment": null,
+  "requires_integrations_with": [],
+  "sparse_paths": ["common/", "capabilities/cli/"]
+}

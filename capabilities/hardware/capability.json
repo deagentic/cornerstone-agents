@@ -1,0 +1,7 @@
+{
+  "name": "hardware",
+  "description": "Hardware interface skills — embedded systems, serial/USB-HID/Bluetooth/NFC specialists, device probing, firmware interaction",
+  "agents_fragment": "AGENTS.hardware.md",
+  "requires_integrations_with": [],
+  "sparse_paths": ["common/", "capabilities/hardware/"]
+}

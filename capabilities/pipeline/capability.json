@@ -1,0 +1,7 @@
+{
+  "name": "pipeline",
+  "description": "Data pipeline skills — Kedro node/pipeline/catalog authoring, DeAcero domain context, SQUIT data discovery, KedroViz DAG visualization",
+  "agents_fragment": "AGENTS.pipeline.md",
+  "requires_integrations_with": [],
+  "sparse_paths": ["common/", "capabilities/pipeline/"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "server+frontend",
+  "capabilities": ["server", "frontend"],
+  "description": "BFF patterns — shared auth, CORS configuration, and API contract design between server and frontend",
+  "agents_fragment": "AGENTS.server+frontend.md",
+  "sparse_paths": ["integrations/server+frontend/"]
+}

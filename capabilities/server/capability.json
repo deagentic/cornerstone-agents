@@ -1,0 +1,7 @@
+{
+  "name": "server",
+  "description": "Backend server skills — hexagonal architecture, FastMCP tool design, FastAPI routers, database migrations, ADR-first for src/ changes",
+  "agents_fragment": "AGENTS.server.md",
+  "requires_integrations_with": [],
+  "sparse_paths": ["common/", "capabilities/server/"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "server+pipeline",
+  "capabilities": ["server", "pipeline"],
+  "description": "Kedro MCP adapter — exposes Kedro pipelines as MCP tools",
+  "agents_fragment": "AGENTS.server+pipeline.md",
+  "sparse_paths": ["integrations/server+pipeline/"]
+}

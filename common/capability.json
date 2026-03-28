@@ -1,0 +1,7 @@
+{
+  "name": "common",
+  "description": "Universal skills shipped to every Cornerstone project",
+  "agents_fragment": null,
+  "requires_integrations_with": [],
+  "sparse_paths": ["common/"]
+}

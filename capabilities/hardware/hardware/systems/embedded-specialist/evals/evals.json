@@ -1,0 +1,51 @@
+{
+  "skill_name": "embedded-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze this embedded C snippet:\n```c\nvolatile uint8_t spi_rx_buf[64];\nvoid SPI1_IRQHandler(void) {\n    if (SPI1->SR & SPI_SR_RXNE) {\n        spi_rx_buf[rx_idx++] = SPI1->DR;\n        if (rx_idx >= 64) rx_idx = 0;\n    }\n}\n```",
+      "expected_output": "Analysis covering: (1) volatile qualifier — correct use for ISR-shared buffer; (2) SPI RXNE interrupt — identifies this as STM32-style CMSIS register access; (3) Ring buffer without critical section — race condition risk if rx_idx is accessed from main context without disabling interrupts; (4) No bounds check on rx_idx before write — though reset to 0 is present, a concurrent read race could corrupt data. Recommendations include memory barriers or disabling interrupts in main context.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Identifies the volatile qualifier as correct for ISR-shared memory",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Identifies the race condition risk on rx_idx if accessed from main context",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Recognizes STM32/CMSIS register access pattern (SPI1->SR, SPI_SR_RXNE)",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This Raspberry Pi script reads a temperature sensor over I2C:\n```python\nimport smbus2\nbus = smbus2.SMBus(1)\ndata = bus.read_i2c_block_data(0x48, 0x00, 2)\ntemp = (data[0] << 4) | (data[1] >> 4)\nprint(f'Temp: {temp * 0.0625:.2f}°C')\n```",
+      "expected_output": "Analysis of: (1) I2C bus 1 on RPi — correct for GPIO pins 2/3; (2) Address 0x48 — identifies this as likely TMP102/LM75/ADS1115 compatible sensor; (3) 12-bit ADC conversion math — the bit shift is correct for a 12-bit right-justified value; (4) No error handling for SMBus exceptions (bus not available, device not found); (5) No cleanup/close of bus handle.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Correctly interprets the 12-bit ADC conversion (left shift 4, right shift 4)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Identifies missing exception handling for SMBus errors",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Identifies the sensor address 0x48 as a common I2C ADC/temp sensor family",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}

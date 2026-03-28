@@ -1,0 +1,7 @@
+{
+  "name": "archaeology",
+  "description": "Legacy system discovery and reverse-engineering — SQUIT semantic search, COBOL analysis, characterization testing, retro-engineering",
+  "agents_fragment": "AGENTS.archaeology.md",
+  "requires_integrations_with": [],
+  "sparse_paths": ["common/", "capabilities/archaeology/"]
+}

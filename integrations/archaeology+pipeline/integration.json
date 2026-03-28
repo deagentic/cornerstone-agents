@@ -1,0 +1,7 @@
+{
+  "name": "archaeology+pipeline",
+  "capabilities": ["archaeology", "pipeline"],
+  "description": "Legacy-to-Kedro migration — characterize legacy transformations first, then map to Kedro nodes",
+  "agents_fragment": "AGENTS.archaeology+pipeline.md",
+  "sparse_paths": ["integrations/archaeology+pipeline/"]
+}
