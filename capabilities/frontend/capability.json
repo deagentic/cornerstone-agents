@@ -1,7 +1,5 @@
 {
   "name": "frontend",
-  "description": "Frontend UI skills — Stitch design loop, shadcn-ui components, React patterns, design-md spec format, Remotion animations",
-  "agents_fragment": "AGENTS.frontend.md",
-  "requires_integrations_with": [],
+  "description": "UI development — Stitch design loop, shadcn-ui",
   "sparse_paths": ["common/", "capabilities/frontend/"]
 }
