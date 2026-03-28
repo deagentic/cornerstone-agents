@@ -1,0 +1,51 @@
+{
+  "skill_name": "hardware-analyst",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze this Python file:\n```python\nimport hid\nfrom smartcard.System import readers\nfrom smartcard.CardConnection import CardConnection\n\ndef open_reader():\n    device = hid.device()\n    device.open(0x072F, 0x2200)  # ACR122U VID/PID\n    r = readers()\n    conn = r[0].createConnection()\n    conn.connect()\n    return device, conn\n```",
+      "expected_output": "hardware-analyst correctly identifies TWO hardware domains: (1) USB/HID — hid.device(), VID/PID 0x072F/0x2200; (2) Smart Card / PC/SC — smartcard.System.readers(), CardConnection. It dispatches to BOTH usb-hid-specialist and smart-card-specialist. The coordination note explains this is an ACR122U reader which presents as both HID and CCID/PC-SC.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Both USB/HID and Smart Card domains are identified",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Dispatches to usb-hid-specialist for the hid.device() call",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Dispatches to smart-card-specialist for the smartcard/PC-SC calls",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Notes that both specialists should be invoked, not just one",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Analyze this Python module:\n```python\nimport pandas as pd\nimport sqlalchemy\nfrom flask import Flask\n\napp = Flask(__name__)\nengine = sqlalchemy.create_engine('postgresql://localhost/mydb')\n\ndef get_users():\n    return pd.read_sql('SELECT * FROM users', engine)\n```",
+      "expected_output": "No hardware domains detected. This is a web/database application — no hardware APIs, device interfaces, or physical protocols present. hardware-analyst should report 'no hardware domains detected' and NOT dispatch to any hardware specialist. It may suggest database-expert for the SQLAlchemy/pandas usage.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "No hardware specialists are dispatched",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Correctly identifies this as a web/database application with no hardware signals",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}
