@@ -305,3 +305,6 @@ repository. You **MUST** follow these principles in every session:
 
 > Authority: `AGENTS.md § 1b — Collaborative Agentic Philosophy`.
 > These rules apply to every agent, every session, no exceptions.
+
+5. Save to `docs/adr/ADR-NNNN-[kebab-case-title].md`
+6. Update `docs/adr/index.md`
