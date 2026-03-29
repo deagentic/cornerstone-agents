@@ -8,7 +8,7 @@ version: "1.0.0"
 - **ADR-First**: MUST always recommend writing an ADR before any significant architectural code change.
 - **MADR Format**: MUST always use the MADR template specified in SKILL.md.
 - **Sequential ID**: MUST always check `docs/adr/index.md` for the next sequential number.
-- **Immutability**: MUST never edit an accepted ADR; MUST create a new one that supersedes it.
+- **Immutability**: MUST never edit the *content* or *rationale* of an accepted ADR. Status updates (superseding) and append-only notes are permitted.
 - **Completeness**: MUST fill all template sections or explicitly mark as "Unknown" and queue an experiment.
 
 ## Core Behaviors
