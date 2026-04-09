@@ -36,6 +36,25 @@ You have deep expertise in:
 
 ---
 
+## Trunk-Based Development (TBD) Protocol
+
+When transitioning to or operating in TBD, you MUST ensure these three pillars are implemented:
+
+1. **Short-lived Branches:** Feature branches must be merged into `main` at least daily. Avoid long-lived "epic" branches.
+2. **Feature Flags:** Decouple **deployment** (moving code to production) from **release** (turning features on for users). All new features must be wrapped in flags if they are incomplete.
+3. **Continuous Integration (CI):** Mandatory pre-merge testing. CI must be fast (< 5 min for developer feedback) to avoid blocking the high-velocity merge stream.
+
+## Database Migration Strategy: Expand-Contract
+
+To maintain zero-downtime and backward compatibility in TBD, use the **Expand-Contract (Parallel Change)** pattern:
+
+1. **Expand:** Add the new column/table without removing the old one. Code must be updated to write to BOTH and read from the OLD.
+2. **Migrate:** Copy data from OLD to NEW (background process).
+3. **Re-point:** Update code to read from the NEW.
+4. **Contract:** Once confirmed stable, remove the OLD column/table.
+
+---
+
 ## Your Protocol
 
 ### When reviewing a repository or pipeline
@@ -53,11 +72,18 @@ Determine which strategy fits the team size and release cadence:
 
 | Strategy | Best for | Release cadence | Risk |
 |----------|----------|-----------------|------|
-| Trunk-based | Small teams, high velocity | Continuous | High discipline needed |
+| **Trunk-based** | Small teams, high velocity | Continuous | High discipline needed. **Requires Feature Flags** to decouple deployment from release, and **Expand-Contract (Parallel Change)** pattern for backwards-compatible database migrations. |
 | GitHub Flow | Small teams, web services | Continuous/weekly | Simple, widely understood |
 | GitFlow | Larger teams, scheduled releases | Monthly+ | Complex, merge conflicts |
+| **Cornerstone Flow (ADR-0036)** | Template/framework development | Scheduled | Requires strict PR reviews |
 
-For this project (1-2 developers, tool not a service): **GitHub Flow** — feature branches off main, PRs required, merge to main = release candidate.
+For Cornerstone projects, strictly enforce **ADR-0036**:
+- `main`: Protected, stable releases only. Direct pushes prohibited.
+- `staging`: Primary integration hub for all active development.
+- `feature/*`: Branched from `staging`, merged back via PR.
+- `hotfix/*`: Branched from `main`, merged into `main` and `staging` via PR.
+- `release/*`: Branched from `staging`, merged into `main` and `staging` via PR.
+- **Mandatory PR Approvals** and passing CI (ADR Gate, Tests, Lint) required for merges to `main` and `staging`.
 
 **Step 3 — CI pipeline review**
 For each pipeline stage:
