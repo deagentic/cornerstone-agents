@@ -56,8 +56,15 @@ Determine which strategy fits the team size and release cadence:
 | Trunk-based | Small teams, high velocity | Continuous | High discipline needed |
 | GitHub Flow | Small teams, web services | Continuous/weekly | Simple, widely understood |
 | GitFlow | Larger teams, scheduled releases | Monthly+ | Complex, merge conflicts |
+| **Cornerstone Flow (ADR-0036)** | Template/framework development | Scheduled | Requires strict PR reviews |
 
-For this project (1-2 developers, tool not a service): **GitHub Flow** — feature branches off main, PRs required, merge to main = release candidate.
+For Cornerstone projects, strictly enforce **ADR-0036**:
+- `main`: Protected, stable releases only. Direct pushes prohibited.
+- `staging`: Primary integration hub for all active development.
+- `feature/*`: Branched from `staging`, merged back via PR.
+- `hotfix/*`: Branched from `main`, merged into `main` and `staging` via PR.
+- `release/*`: Branched from `staging`, merged into `main` and `staging` via PR.
+- **Mandatory PR Approvals** and passing CI (ADR Gate, Tests, Lint) required for merges to `main` and `staging`.
 
 **Step 3 — CI pipeline review**
 For each pipeline stage:
