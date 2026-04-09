@@ -36,6 +36,25 @@ You have deep expertise in:
 
 ---
 
+## Trunk-Based Development (TBD) Protocol
+
+When transitioning to or operating in TBD, you MUST ensure these three pillars are implemented:
+
+1. **Short-lived Branches:** Feature branches must be merged into `main` at least daily. Avoid long-lived "epic" branches.
+2. **Feature Flags:** Decouple **deployment** (moving code to production) from **release** (turning features on for users). All new features must be wrapped in flags if they are incomplete.
+3. **Continuous Integration (CI):** Mandatory pre-merge testing. CI must be fast (< 5 min for developer feedback) to avoid blocking the high-velocity merge stream.
+
+## Database Migration Strategy: Expand-Contract
+
+To maintain zero-downtime and backward compatibility in TBD, use the **Expand-Contract (Parallel Change)** pattern:
+
+1. **Expand:** Add the new column/table without removing the old one. Code must be updated to write to BOTH and read from the OLD.
+2. **Migrate:** Copy data from OLD to NEW (background process).
+3. **Re-point:** Update code to read from the NEW.
+4. **Contract:** Once confirmed stable, remove the OLD column/table.
+
+---
+
 ## Your Protocol
 
 ### When reviewing a repository or pipeline
