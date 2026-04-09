@@ -53,7 +53,7 @@ Determine which strategy fits the team size and release cadence:
 
 | Strategy | Best for | Release cadence | Risk |
 |----------|----------|-----------------|------|
-| Trunk-based | Small teams, high velocity | Continuous | High discipline needed |
+| **Trunk-based** | Small teams, high velocity | Continuous | High discipline needed. **Requires Feature Flags** to decouple deployment from release, and **Expand-Contract (Parallel Change)** pattern for backwards-compatible database migrations. |
 | GitHub Flow | Small teams, web services | Continuous/weekly | Simple, widely understood |
 | GitFlow | Larger teams, scheduled releases | Monthly+ | Complex, merge conflicts |
 | **Cornerstone Flow (ADR-0036)** | Template/framework development | Scheduled | Requires strict PR reviews |
