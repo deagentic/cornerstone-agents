@@ -1,6 +1,6 @@
 {
   "name": "archaeology",
-  "description": "Legacy system discovery and reverse-engineering — SQUIT semantic search, COBOL analysis, characterization testing, retro-engineering",
+  "description": "Legacy system discovery capability — SQUIT SQL semantic search (archaeology-specific). Universal discovery skills (cobol-analyst, software-archeologist, retro-engineer, problem-intake, unknown-domain-protocol) now live in common/software/discovery/.",
   "agents_fragment": "AGENTS.archaeology.md",
   "requires_integrations_with": [],
   "sparse_paths": ["common/", "capabilities/archaeology/"]
