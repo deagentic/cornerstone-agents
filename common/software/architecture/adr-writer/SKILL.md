@@ -133,7 +133,7 @@ These guidelines govern HOW you write ADRs — not just what you capture.
 ### Lean-first approach
 1. **Start lean**: write a minimal ADR (title, status, context, decision, rationale) immediately when a decision is identified.
 2. **Expand later**: only add full template detail (all pros/cons, all options) after the decision is stable — i.e., deciders are confident it won't be revised soon.
-3. **Use lean format for trivial or obvious decisions** — a one-paragraph ADR is fine if the decision is clear and the alternatives are weak.
+3. **Use lean format for trivial or obvious decisions** — even lean ADRs MUST include all template headers; mark sections as "Unknown" if not yet detailed to maintain invariant completeness.
 
 ### Justification is the most important part
 - The rationale section ("because...") is mandatory and must be written forcefully.
@@ -305,3 +305,6 @@ repository. You **MUST** follow these principles in every session:
 
 > Authority: `AGENTS.md § 1b — Collaborative Agentic Philosophy`.
 > These rules apply to every agent, every session, no exceptions.
+
+5. Save to `docs/adr/ADR-NNNN-[kebab-case-title].md`
+6. Update `docs/adr/index.md`

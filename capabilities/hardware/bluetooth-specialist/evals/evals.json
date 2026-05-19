@@ -1,0 +1,51 @@
+{
+  "skill_name": "bluetooth-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this BLE scanning and GATT read code:\n```python\nimport asyncio\nfrom bleak import BleakScanner, BleakClient\n\nHEART_RATE_UUID = '00002a37-0000-1000-8000-00805f9b34fb'\n\nasync def read_heart_rate():\n    devices = await BleakScanner.discover(timeout=5.0)\n    target = next(d for d in devices if d.name == 'MyDevice')\n    async with BleakClient(target.address) as client:\n        data = await client.read_gatt_char(HEART_RATE_UUID)\n        return data[1]  # heart rate value\n```",
+      "expected_output": "Analysis: (1) next() with no default will raise StopIteration if 'MyDevice' not found — should use next(..., None) with a guard; (2) Heart Rate Measurement characteristic (0x2A37) — the format is flags byte + value; data[1] is correct only when flags byte (data[0]) indicates uint8 format (bit 0 = 0); if bit 0 = 1 it's uint16 (little-endian, data[1:3]); (3) device.name can be None for devices that haven't advertised a name; (4) UUID is correct for GATT Heart Rate Measurement.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Flags that next() without default will crash if device not found",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Correctly explains the Heart Rate Measurement characteristic flags byte and the uint8/uint16 ambiguity",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Notes that device.name can be None for some BLE devices",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We need to read notifications from a BLE peripheral continuously. How do we set up GATT notifications with bleak?",
+      "expected_output": "Code example using client.start_notify(uuid, callback) with an async callback. Show the pattern: define a notification_handler(sender, data) callback, call await client.start_notify(CHAR_UUID, notification_handler), then keep the client connected with asyncio.sleep or a queue. Mention stop_notify for cleanup. Note that not all characteristics support notify (check properties with client.get_services()).",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Uses start_notify with a callback function",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Shows how to keep the event loop running to receive notifications",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Mentions checking characteristic properties for notify support",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}

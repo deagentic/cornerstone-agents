@@ -1,0 +1,51 @@
+{
+  "skill_name": "nfc-rfid-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze this NFC tag reading code:\n```python\nimport nfc\n\ndef on_connect(tag):\n    print(f'Tag: {tag}')\n    if isinstance(tag, nfc.tag.tt2.Type2Tag):\n        data = tag.read(4)  # read block 4\n        print(f'Data: {data.hex()}')\n    return True\n\nwith nfc.ContactlessFrontend('usb') as clf:\n    clf.connect(rdwr={'on-connect': on_connect})\n```",
+      "expected_output": "Analysis: (1) nfcpy usage — correct pattern for on-connect callback; (2) Type2Tag (ISO 14443-3A, Mifare Ultralight/NTAG) — block 4 is the first user data page in NTAG213; (3) tag.read(4) reads 4 bytes (one block) — for NTAG this is correct page-based addressing; (4) return True keeps the field active for repeated reads; (5) No error handling for nfc.tag.TagCommandError (tag moved during read); (6) No finally block to release the clf — context manager handles this, which is correct.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Identifies Type2Tag as ISO 14443-3A (Mifare Ultralight/NTAG family)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Explains that block 4 is the first user data page in NTAG213",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Flags missing TagCommandError handling for tag removal during read",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We're sending an ISO 15693 inventory command via ACR122U but getting no response. The tag is present (we can hear the reader beep). What could be wrong?",
+      "expected_output": "ISO 15693 troubleshooting checklist: (1) ACR122U uses PC/SC pseudo-APDUs for ISO 15693 — must use [FF 30 00 00 05 26 01 00 ...] not direct RF frames; (2) RF field timing — after SCardConnect, need a small delay (~50ms) before sending inventory; (3) Data rate — ISO 15693 supports 1-of-4 and 1-of-256 coding, ensure reader and tag agree; (4) Address mode vs inventory mode — inventory uses flag byte 0x26 (inventory flag set, no address); (5) Distance — ISO 15693 range is up to 1m but ACR122U antenna is optimized for proximity.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Explains that ACR122U uses PC/SC pseudo-APDUs for ISO 15693, not raw RF frames",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Mentions the timing delay needed after SCardConnect before commands",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Explains the ISO 15693 inventory flag byte (0x26)",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "skill_name": "smart-card-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this PC/SC card reading code:\n```python\nfrom smartcard.System import readers\nfrom smartcard.util import toHexString\n\nGET_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]\n\ndef read_card_uid():\n    r = readers()\n    conn = r[0].createConnection()\n    conn.connect()\n    data, sw1, sw2 = conn.transmit(GET_UID)\n    print(f'UID: {toHexString(data)}')\n    conn.disconnect()\n```",
+      "expected_output": "Analysis covering: (1) APDU [FF CA 00 00 00] — identifies this as GET DATA for UID (pseudo-APDU, handled by reader not card); (2) No SCARDCONTEXT — missing SCardEstablishContext, using pyscard's abstraction; (3) sw1/sw2 not checked — 90 00 = success, but other codes are ignored; (4) No exception handling for CardConnectionException (card removed mid-operation); (5) No SCardReleaseContext or resource cleanup on error paths.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Identifies [FF CA 00 00 00] as a GET UID pseudo-APDU",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Flags that sw1/sw2 status bytes are not validated",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Identifies missing exception handling for card removal",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "What does this ATR mean: `3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 00 01 00 00 00 00 6A`?",
+      "expected_output": "ATR parsing: 3B = direct convention, 8F = T=0, TA1=80 (Fi=372, Di=1, 372 etu), TB1 not present, TC1=80 (extra guard time), historical bytes starting at 80... The historical bytes 4F 0C A0 00 00 03 06 03 00 01 00 00 00 00 identify this as a specific card profile (likely a government or banking smart card with AID A0 00 00 03 06). TCK byte 6A is the XOR checksum.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Correctly identifies 3B as direct convention (not inverse)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Interprets the TA1=80 clock rate conversion factor",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Identifies the historical bytes as containing an AID (A0 00 00 03 06)",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}

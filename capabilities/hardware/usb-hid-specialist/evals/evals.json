@@ -1,0 +1,51 @@
+{
+  "skill_name": "usb-hid-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze this USB HID enumeration code:\n```python\nimport hid\n\ndef find_device(vid: int, pid: int):\n    for device in hid.enumerate():\n        if device['vendor_id'] == vid and device['product_id'] == pid:\n            h = hid.device()\n            h.open(vid, pid)\n            return h\n    return None\n\ndef send_report(h, data: bytes):\n    h.write([0x00] + list(data))\n```",
+      "expected_output": "Analysis: (1) hid.enumerate() returns all devices — opening by VID/PID will open the FIRST matching device; if two identical devices are connected, behavior is non-deterministic (use path instead); (2) The prepended 0x00 in write() is the report ID — correct for HID report 0, but should be documented; (3) No h.close() — handle leak if caller doesn't close; (4) No error handling for IOError from h.open() (device in use, permission denied on Linux without udev rules); (5) On Linux, hidraw requires udev rules or running as root.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Identifies that open(vid, pid) is non-deterministic with multiple identical devices (use path instead)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Explains the 0x00 prepend as the HID report ID",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Flags the missing h.close() handle leak",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Our USB HID device works on Windows but on Linux we get 'Permission denied' when opening /dev/hidraw0. How do we fix this?",
+      "expected_output": "Linux udev rules solution: create /etc/udev/rules.d/99-myhid.rules with SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"<vid>\", ATTRS{idProduct}==\"<pid>\", MODE=\"0666\". Then run `udevadm control --reload-rules && udevadm trigger`. Also mention alternative of adding user to 'plugdev' group. Note that MODE=0666 gives world read/write — for production use GROUP=\"plugdev\" MODE=\"0660\" is safer.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Provides a udev rule solution with correct syntax",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Mentions udevadm reload to activate rules without reboot",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Notes security difference between MODE=0666 (world access) and plugdev group approach",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "skill_name": "serial-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this serial port code:\n```python\nimport serial\n\ndef send_command(cmd: str) -> str:\n    port = serial.Serial('COM3', 9600)\n    port.write(cmd.encode())\n    response = port.read(1024)\n    port.close()\n    return response.decode()\n```",
+      "expected_output": "Analysis: (1) Hardcoded 'COM3' — not portable, will fail on Linux/macOS; (2) No timeout set on Serial() — read(1024) will block indefinitely if device sends fewer than 1024 bytes; (3) No flow control (RTS/CTS or XON/XOFF) specified — may cause data loss at 9600 baud with slow devices; (4) Port not opened in a context manager — close() won't be called if an exception occurs mid-operation; (5) 1024-byte read assumes fixed response size — most serial protocols are line-terminated or length-prefixed.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Identifies hardcoded COM3 as non-portable",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Flags the missing timeout (blocking read)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Flags that port.close() won't run if an exception occurs (missing context manager)",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We're trying to communicate with a Modbus RTU device over RS-485 at 19200 baud, but we're seeing corrupted frames randomly. What should we check?",
+      "expected_output": "Systematic Modbus RTU debugging checklist: (1) RS-485 termination resistors at both ends of the bus (120 ohm); (2) Inter-frame silence gap — Modbus RTU requires 3.5 character times minimum between frames (~1.8ms at 19200); (3) TX/RX direction control — many USB-RS485 adapters need explicit RTS toggle for half-duplex; (4) Ground reference — RS-485 is differential but still needs common ground; (5) Check for 120-ohm termination at both ends only; (6) pymodbus or minimalmodbus library inter-frame gap setting.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Mentions RS-485 termination resistors",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Mentions the Modbus RTU 3.5 character inter-frame gap requirement",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "Mentions RTS direction control for half-duplex RS-485",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}
