@@ -1,5 +1,7 @@
 {
   "name": "server",
-  "description": "Backend services — hexagonal architecture, FastMCP",
+  "description": "Backend server capability — hexagonal architecture, FastMCP tool design, FastAPI routers, ADR-first for src/ changes. database-expert now lives in common/infrastructure/.",
+  "agents_fragment": "AGENTS.server.md",
+  "requires_integrations_with": [],
   "sparse_paths": ["common/", "capabilities/server/"]
 }
